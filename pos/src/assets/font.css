@@ -1,0 +1,7 @@
+@font-face {
+    font-family:'PermanentMarker' ;
+    src: url('./fonts/PermanentMarker.ttf');
+}
+.PermanentMarker{
+    font-family:PermanentMarker;
+}
