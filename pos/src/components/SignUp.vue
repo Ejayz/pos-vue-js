@@ -84,6 +84,7 @@ export default {
       this.$emit("triggerError");
     },
     async createAccount() {
+      let instance=this
       const datas = {
         username: this.username,
         password: this.password,
@@ -99,12 +100,13 @@ export default {
         data: datas,
       };
 
-      await axios.request(options).then((result, error) => {
-        console.log(this);
-        this.$emit("triggerError");
+      await axios.request(options).then(result => {
         console.log(result);
-        console.log(error);
-      });
+      }).catch(error=>{
+        console.log(error)
+        console.log(instance)
+     instance.triggerNotif()
+      })
     },
   },
 };

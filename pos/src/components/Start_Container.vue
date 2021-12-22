@@ -87,8 +87,6 @@ export default {
       message: this.message.info,
     };
   },
-  inject: ["error"],
-
   methods: {
     triggererror() {
       return true;
