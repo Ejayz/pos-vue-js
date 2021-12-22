@@ -1,0 +1,12 @@
+POST http://localhost:3080/signup HTTP/1.1
+content-type: :application/json
+
+{
+	"username":"ads",
+    "password":"randomDdos1.com",
+    "email":"asd7",
+    "store_name":"asd",
+    "subcription_id":"asd",
+    "is_notification":"asd",
+    "account_creation_date":"asd"
+}
