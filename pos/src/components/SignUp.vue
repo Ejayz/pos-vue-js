@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     async triggerNotif() {
-     this.$emit("triggerError");
+      this.$emit("triggerError");
     },
     async createAccount() {
       const datas = {
@@ -99,12 +99,12 @@ export default {
         data: datas,
       };
 
-      try {
-        let result = await axios.request(options);
+      await axios.request(options).then((result, error) => {
+        console.log(this);
+        this.$emit("triggerError");
         console.log(result);
-      } catch (error) {
-       this.triggerNotif();
-      }
+        console.log(error);
+      });
     },
   },
 };

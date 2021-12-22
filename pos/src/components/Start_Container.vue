@@ -1,6 +1,7 @@
 <template>
-  <NotificationPanel v-on:triggerError="triggererror()"
-    :class='{ "hidden": !error, "block": error }'
+  <NotificationPanel
+    v-on:triggerError="error=false"
+    :class="{ hidden: !error, block: error }"
     class="absolute z-50"
   >
   </NotificationPanel>
@@ -88,13 +89,9 @@ export default {
   },
   inject: ["error"],
 
-  
-
   methods: {
-      triggererror() {
-      this.error = true;
-      alert();
-     // this.message.info = MessageInfo;
+    triggererror() {
+      return true;
     },
     MenuState(event) {
       let isMenuActive = false;
