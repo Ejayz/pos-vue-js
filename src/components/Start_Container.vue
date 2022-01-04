@@ -1,10 +1,4 @@
 <template>
-  <NotificationPanel
-    v-on:triggerError="error=false"
-    :class="{ hidden: !error, block: error }"
-    class="absolute z-50"
-  >
-  </NotificationPanel>
   <div id="UI_Container" class="h-screen w-screen flex flex-row">
     <div id="Access_Container" class="w-5/12 grid h-screen">
       <div id="Menu" class="w-full h-full bg-gray-700 antialiased">
@@ -65,32 +59,22 @@
   </div>
 </template>
 <script>
-import Login from "./Login.vue";
-import Signup from "./SignUp.vue";
-import NotificationPanel from "./NotificationPanel.vue";
+import Login from "./Start_Sub_Container/Login.vue";
+import Signup from "./Start_Sub_Container/SignUp.vue";
 export default {
   components: {
     Login,
     Signup,
-    NotificationPanel,
   },
   data() {
     return {
       isLogin: true,
       isMenuActive: true,
       message: { info: "No Info" },
-      error: false,
     };
   },
-  provide() {
-    return {
-      message: this.message.info,
-    };
-  },
+
   methods: {
-    triggererror() {
-      return true;
-    },
     MenuState(event) {
       let isMenuActive = false;
       const trigger = event.target.id;
@@ -109,10 +93,9 @@ export default {
       } else {
         iLogin = true;
       }
-      console.log(event);
+
       return iLogin;
     },
   },
 };
 </script>
-s

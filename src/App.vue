@@ -1,12 +1,30 @@
 <template>
-<Start_Container />
+  <NotificationPanel v-if="error === true" class="absolute">
+  </NotificationPanel>
   <router-view />
 </template>
 <script>
-import Start_Container from "./components/Start_Container.vue";
+import NotificationPanel from "./components/NotificationPanel.vue";
 export default {
+  data() {
+    return {
+      error: true,
+      error_message: "",
+    };
+  },
+  watch: {
+    "$store.state.notification.api_NotificationState": {
+      handler: function (newVal) {
+        this.error = newVal;
+      },
+      immediate: true,
+    },
+  },
   components: {
-    Start_Container,
+    NotificationPanel,
+  },
+  beforeMounted() {
+    this.$router.push({ name: "Home" });
   },
 };
 </script>
@@ -16,6 +34,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #010102;
 }
 </style>

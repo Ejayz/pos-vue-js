@@ -11,11 +11,11 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component:About
-  },{
-    path:"/Cashier",
-    name:"Cashier",
-    component:Cashier_Access
+    component: About
+  }, {
+    path: "/Cashier_Access",
+    name: "Cashier",
+    component: Cashier_Access
   }
 ]
 
