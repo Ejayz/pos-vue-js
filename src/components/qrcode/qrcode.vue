@@ -11,9 +11,12 @@
 <script>
 import Quagga from "quagga";
 import scanner_audio from "@/assets/audio/scanner.wav";
+import { mapActions } from "vuex";
+
 export default {
   name: "QuaggaScanner",
   methods: {
+    ...mapActions("search_item/", ["getSearchData"]),
     playAudio() {
       let audio = new Audio(scanner_audio);
       audio.muted = false;
@@ -26,7 +29,6 @@ export default {
       type: Function,
       default(result) {
         this.qr_code = result.codeResult.code;
-        console.log("detected: ", result);
       },
     },
     onProcessed: {
@@ -100,7 +102,7 @@ export default {
           halfSample: true,
         },
         numOfWorkers: 2,
-        frequency: 15,
+        frequency: 10,
         decoder: {
           readers: this.readerTypes,
         },
@@ -109,16 +111,18 @@ export default {
     };
   },
   watch: {
-    qr_code: function (newVal) {
-      console.log(newVal);
-      if (newVal !== "") {
-        this.playAudio()
-      }
+    "this.qr_code": {
+     handler: function(newVal) {
+        if (newVal !== "") {
+          this.getSearchData(newVal);
+          console.log(newVal);
+          this.playAudio();
+        }
+      },
     },
 
     "$store.state.qr_code.device_id": {
       handler: function (cameraId) {
-        console.log(cameraId);
         this.quaggaState.inputStream.constraints.deviceId = cameraId;
         if (this.isRunning) {
           Quagga.stop();
@@ -126,14 +130,24 @@ export default {
         } else {
           this.isRunning = true;
         }
-        Quagga.init(this.quaggaState, function (err) {
-          if (err) {
-            return console.error(err);
+
+        if (cameraId == "invalid") {
+          if (this.isRunning) {
+            Quagga.stop();
+            this.isRunning = true;
+          } else {
+            this.isRunning = true;
           }
-          Quagga.start();
-        });
-        Quagga.onDetected(this.onDetected);
-        Quagga.onProcessed(this.onProcessed);
+        } else {
+          Quagga.init(this.quaggaState, function (err) {
+            if (err) {
+              return console.error(err);
+            }
+            Quagga.start();
+          });
+          Quagga.onDetected(this.onDetected);
+          Quagga.onProcessed(this.onProcessed);
+        }
       },
     },
     onDetected: function (oldValue, newValue) {
@@ -146,7 +160,11 @@ export default {
     },
   },
   mounted() {
-    this.playAudio();
+    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+      stream.getVideoTracks().forEach(function (track) {
+        track.stop();
+      });
+    });
   },
   unmounted() {
     if (this.onDetected) Quagga.offDetected(this.onDetected);

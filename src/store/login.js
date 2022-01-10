@@ -42,6 +42,7 @@ const login = {
         
         }
     },
+    
     namespaced: true
 }
 export default login

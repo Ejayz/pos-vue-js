@@ -1,5 +1,5 @@
 <template>
-  <NotificationPanel v-if="error === true" class="absolute">
+  <NotificationPanel v-if="error === true" class="absolute z-50">
   </NotificationPanel>
   <router-view />
 </template>
